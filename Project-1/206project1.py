@@ -1,6 +1,10 @@
 import os
 import filecmp
 
+import csv
+
+from operator import itemgetter
+
 def getData(file):
 #Input: file name
 #Ouput: return a list of dictionary objects where 
@@ -12,7 +16,19 @@ def getData(file):
 #cases.
 
 	#Your code here:
-	pass
+	with open(file, 'r') as f:
+		reader = csv.reader(f)
+		dict = {}
+		ls = []
+		for row in reader:
+			dict['First'] = row[0]
+			dict['Last'] = row[1]
+			dict['Email'] = row[2]
+			dict['Class'] = row[3]
+			dict['DOB'] = row[4]
+		ls.append(dict)
+		return ls
+
 
 #Sort based on key/column
 def mySort(data,col):
@@ -20,7 +36,48 @@ def mySort(data,col):
 #Output: Return a string of the form firstName lastName
 
 	#Your code here:
-	pass
+	
+	
+	#if col == 'First':
+		#firstnamesort =	sorted(data, key=itemgetter('First'), reverse=True)
+		#firstlist = []
+		#for x in firstnamesort:
+			#first = x['First']
+			#last = x['Last']
+			#name = (first + ' ' + last)
+			#firstlist.append(name)
+		#print (firstlist)
+
+	#if col == 'Last':
+		#lastnamesort = sorted(data, key=itemgetter('Last'))
+		#for x in lastnamesort:
+			#first = x['First']
+			#last = x['Last']
+		#return (first + ' ' + last)
+	
+
+
+
+
+
+
+		#print (x)
+		#if col == 'First':
+			#name = []
+			#new = sorted(x, key=itemgetter(0))
+			#print (new)
+			#name.append('First'[0])
+			#name.append('Last'[0])
+			#firstlast = ''.join(name)
+			#return firstlast
+		
+			
+	
+	# Task 2 on Project One -- Piaza
+
+
+
+
 
 #Create a histogram
 def classSizes(data):
@@ -34,14 +91,19 @@ def classSizes(data):
 
 
 
+
+
+
 # Find the most common day of the year to be born
 def findDay(a):
 # Input: list of dictionaries
 # Output: Return the day of month (1-31) that is the
 # most often seen in the DOB
-
+	
 	#Your code here:
 	pass
+	
+	
 
 
 # Find the average age (rounded) of the Students
@@ -122,4 +184,5 @@ def main():
 # Standard boilerplate to call the main() function that tests all your code.
 if __name__ == '__main__':
     main()
+
 
