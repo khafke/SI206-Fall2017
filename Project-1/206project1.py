@@ -5,6 +5,8 @@ from operator import itemgetter
 import datetime
 import statistics
 
+#Kamden Hafke
+
 def getData(file):
 #Input: file name
 #Ouput: return a list of dictionary objects where 
@@ -16,6 +18,7 @@ def getData(file):
 #cases.
 
 	#Your code here:
+
 	with open(file, 'r') as f:
 		reader = csv.reader(f)
 		dict = {}
@@ -30,8 +33,6 @@ def getData(file):
 
 		return (ls)
 		
-
-
 #Sort based on key/column
 def mySort(data,col):
 #Input: list of dictionaries
@@ -109,6 +110,7 @@ def findDay(a):
 # most often seen in the DOB
 	
 	#Your code here:
+
 	numdays = {}
 	for x in a[1:]:
 		DOB = x['DOB']
@@ -124,7 +126,6 @@ def findDay(a):
 	sorteddays = sorted(numdays.items(), key=lambda x:x[1], reverse = True)
 	
 	return int(sorteddays[0][0])
-
 
 # Find the average age (rounded) of the Students
 def findAge(a):
@@ -163,6 +164,7 @@ def mySortPrint(a,col,fileName):
 #Output: None
 
 	#Your code here:
+
 	sorteda = sorted(a[1:], key=lambda x: x[col])
 	f = open(fileName,"w", newline="\n")
 	for x in range(len(sorteda)):
@@ -170,21 +172,6 @@ def mySortPrint(a,col,fileName):
 		f.write(fcsv)
 
 	f.close()
-
-	
-
-
-
-
-	#f = open(fileName, 'w')
-	#for item in range(len(sorteda)):
-		#stra = sorteda[item]["First"] + "," + sorteda[item]["Last"] + "," + sorteda[item]["Email"] + "\n"
-		#f.write(stra)
-	#f.close()
-
-
-
-
 
 ################################################################
 ## DO NOT MODIFY ANY CODE BELOW THIS
