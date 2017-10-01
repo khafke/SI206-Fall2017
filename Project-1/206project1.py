@@ -75,18 +75,29 @@ def classSizes(data):
 # [('Senior', 26), ('Junior', 25), ('Freshman', 21), ('Sophomore', 18)]
 
 	#Your code here:
-	pass
-	#Freshman = 0
-	#Sophomore = 0
-	#Junior = 0
-	#Senior = 0
-	#for x in data:
-		#pass
 
-
-
-
-
+	freshman = 0
+	sophomore = 0
+	junior = 0
+	senior = 0
+	classnames = ['Senior', 'Junior', 'Sophomore', 'Freshman']
+	classcount = []
+	for x in data:
+		if x['Class'] == 'Senior':
+			senior = senior + 1
+		if x['Class'] == 'Junior':
+			junior = junior + 1
+		if x['Class'] == 'Sophomore':
+			sophomore = sophomore + 1
+		if x['Class'] == 'Freshman':
+			freshman = freshman + 1
+	classcount.append(senior)
+	classcount.append(junior)
+	classcount.append(sophomore)
+	classcount.append(freshman)
+	classandcount = list(zip(classnames, classcount))
+	sortedsize = sorted(classandcount, key=lambda x: x[1], reverse=True)
+	return sortedsize
 
 
 # Find the most common day of the year to be born
