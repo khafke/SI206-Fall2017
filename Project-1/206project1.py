@@ -107,9 +107,21 @@ def findDay(a):
 # most often seen in the DOB
 	
 	#Your code here:
-
-	pass
+	numdays = {}
+	for x in a[1:]:
+		DOB = x['DOB']
+		splitDOB = DOB.split('/')
+		day = splitDOB[1]
+		if day not in numdays:
+			numdays[day] = 1
+		else:
+			numdays[day] += 1
 	
+	sorted(numdays.values())
+	sorted(numdays, key=numdays.get)
+	sorteddays = sorted(numdays.items(), key=lambda x:x[1], reverse = True)
+	
+	return int(sorteddays[0][0])
 
 
 # Find the average age (rounded) of the Students
