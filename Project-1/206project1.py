@@ -1,8 +1,6 @@
 import os
 import filecmp
-
 import csv
-
 from operator import itemgetter
 
 def getData(file):
@@ -20,14 +18,18 @@ def getData(file):
 		reader = csv.reader(f)
 		dict = {}
 		ls = []
-		for row in reader:
-			dict['First'] = row[0]
-			dict['Last'] = row[1]
-			dict['Email'] = row[2]
-			dict['Class'] = row[3]
-			dict['DOB'] = row[4]
-		ls.append(dict)
-		return ls
+		for x in reader:
+			#print (x)
+			dict['First'] = x[0]
+			dict['Last'] = x[1]
+			dict['Email'] = x[2]
+			dict['Class'] = x[3]
+			dict['DOB'] = x[4]
+			#print (dict)
+			ls.append(dict.copy())
+
+		return (ls)
+		
 
 
 #Sort based on key/column
@@ -37,14 +39,15 @@ def mySort(data,col):
 
 	#Your code here:
 	
-	
 	#if col == 'First':
-		#firstnamesort =	sorted(data, key=itemgetter('First'), reverse=True)
+		#firstnamesort = sorted(data, key=itemgetter('First'))
+		#print (firstnamesort)
 		#firstlist = []
-		#for x in firstnamesort:
+		#for x in data:
 			#first = x['First']
 			#last = x['Last']
 			#name = (first + ' ' + last)
+			#print (name)
 			#firstlist.append(name)
 		#print (firstlist)
 
@@ -54,7 +57,14 @@ def mySort(data,col):
 			#first = x['First']
 			#last = x['Last']
 		#return (first + ' ' + last)
-	
+
+	#if col == 'Email':
+		#emailsort = sorted(data, key=itemgetter('Email'))
+		#for x in emailsort:
+			#first = x['First']
+			#last = x['Last']
+		#return (first + ' ' + last)
+
 
 
 
@@ -75,10 +85,6 @@ def mySort(data,col):
 	
 	# Task 2 on Project One -- Piaza
 
-
-
-
-
 #Create a histogram
 def classSizes(data):
 # Input: list of dictionaries
@@ -88,6 +94,13 @@ def classSizes(data):
 
 	#Your code here:
 	pass
+	#Freshman = 0
+	#Sophomore = 0
+	#Junior = 0
+	#Senior = 0
+	#for x in data:
+		#pass
+
 
 
 
@@ -101,8 +114,8 @@ def findDay(a):
 # most often seen in the DOB
 	
 	#Your code here:
+
 	pass
-	
 	
 
 
