@@ -156,16 +156,6 @@ def findAge(a):
 	avg = statistics.mean(agelst)
 	return int(round(avg))
 
-
-
-
-
-
-
-
-
-
-
 #Similar to mySort, but instead of returning single
 #Student, all of the sorted data is saved to a csv file.
 def mySortPrint(a,col,fileName):
@@ -173,7 +163,26 @@ def mySortPrint(a,col,fileName):
 #Output: None
 
 	#Your code here:
-	pass
+	sorteda = sorted(a[1:], key=lambda x: x[col])
+	f = open(fileName,"w", newline="\n")
+	for x in range(len(sorteda)):
+		fcsv = sorteda[x]["First"] + ',' + sorteda[x]['Last'] + ',' + sorteda[x]['Email'] + '\n'
+		f.write(fcsv)
+
+	f.close()
+
+	
+
+
+
+
+	#f = open(fileName, 'w')
+	#for item in range(len(sorteda)):
+		#stra = sorteda[item]["First"] + "," + sorteda[item]["Last"] + "," + sorteda[item]["Email"] + "\n"
+		#f.write(stra)
+	#f.close()
+
+
 
 
 
