@@ -2,6 +2,8 @@ import os
 import filecmp
 import csv
 from operator import itemgetter
+import datetime
+import statistics
 
 def getData(file):
 #Input: file name
@@ -127,11 +129,42 @@ def findDay(a):
 # Find the average age (rounded) of the Students
 def findAge(a):
 # Input: list of dictionaries
-# Output: Return the day of month (1-31) that is the
-# most often seen in the DOB
+# Output: Return the average age of the students and round that age to the nearest 
+# integer.  You will need to work with the DOB to find their current age.
+
 
 	#Your code here:
-	pass
+
+	format = "%m %d %Y"
+	d = datetime.datetime.today()
+	today = d.strftime(format)
+	todaylist = today.split()
+	intlist =[]
+	for strnum in todaylist:
+		intlist.append(int(strnum))
+
+	agelst = []
+	for x in a[1:]:
+		DOB = x['DOB']
+		splitDOB = DOB.split('/')
+		month = int(splitDOB[0])
+		day = int(splitDOB[1])
+		year = int(splitDOB[2])
+		age = intlist[2] - year - ((intlist[0], intlist[1]) < (month, day))
+		agelst.append(age)
+
+	avg = statistics.mean(agelst)
+	return int(round(avg))
+
+
+
+
+
+
+
+
+
+
 
 #Similar to mySort, but instead of returning single
 #Student, all of the sorted data is saved to a csv file.
