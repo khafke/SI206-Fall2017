@@ -19,13 +19,11 @@ def getData(file):
 		dict = {}
 		ls = []
 		for x in reader:
-			#print (x)
 			dict['First'] = x[0]
 			dict['Last'] = x[1]
 			dict['Email'] = x[2]
 			dict['Class'] = x[3]
 			dict['DOB'] = x[4]
-			#print (dict)
 			ls.append(dict.copy())
 
 		return (ls)
@@ -39,51 +37,35 @@ def mySort(data,col):
 
 	#Your code here:
 	
-	#if col == 'First':
-		#firstnamesort = sorted(data, key=itemgetter('First'))
-		#print (firstnamesort)
-		#firstlist = []
-		#for x in data:
-			#first = x['First']
-			#last = x['Last']
-			#name = (first + ' ' + last)
-			#print (name)
-			#firstlist.append(name)
-		#print (firstlist)
+	if col == 'First':
+		firstlist = []
+		for x in data:
+			first = x['First']
+			last = x['Last']
+			name = (first + ' ' + last)
+			firstlist.append(name)
+		firstnamesort = sorted(firstlist)
+		return firstnamesort[0]
 
-	#if col == 'Last':
-		#lastnamesort = sorted(data, key=itemgetter('Last'))
-		#for x in lastnamesort:
-			#first = x['First']
-			#last = x['Last']
-		#return (first + ' ' + last)
+	elif col == 'Last':
+		lastlist = []
+		lastnamesort = sorted(data, key=itemgetter('Last'))
+		for x in lastnamesort:	
+			first = x['First']
+			last = x['Last']
+			name = (first + ' ' + last)
+			lastlist.append(name)
+		return lastlist[0]
 
-	#if col == 'Email':
-		#emailsort = sorted(data, key=itemgetter('Email'))
-		#for x in emailsort:
-			#first = x['First']
-			#last = x['Last']
-		#return (first + ' ' + last)
-
-
-
-
-
-
-
-		#print (x)
-		#if col == 'First':
-			#name = []
-			#new = sorted(x, key=itemgetter(0))
-			#print (new)
-			#name.append('First'[0])
-			#name.append('Last'[0])
-			#firstlast = ''.join(name)
-			#return firstlast
-		
-			
-	
-	# Task 2 on Project One -- Piaza
+	elif col == 'Email':
+		emaillist = []
+		emailsort = sorted(data, key=itemgetter('Email'))
+		for x in emailsort:	
+			first = x['First']
+			last = x['Last']
+			name = (first + ' ' + last)
+			emaillist.append(name)
+		return emaillist[0]
 
 #Create a histogram
 def classSizes(data):
