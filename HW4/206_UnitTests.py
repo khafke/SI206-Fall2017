@@ -179,11 +179,24 @@ def test_warInstance(self):
     p = play_war_game()
         self.assertEqual(len(p),3)
         self.assertEqual(type(p[0]), str)
+
 ## Write at least 2 additional tests (not repeats of the above described tests). Make sure to include a descriptive message in these two so we can easily see what you are testing!
+## Testing that a Queen is ranked higher than a 3
 def test_myTestInstance1(self):
-    self.assertEqual(type(p[0]), str)
+	c1 = Card(rank=3)
+	c2 = Card(rank=12)
+    self.assertEqual((c1.rank < c2.rank), True)
+
+#Testing that if a card's rank is 1, 11, 12, or 13, it is in faces.
 def test_myTestInstance2(self):
-    self.assertEqual(type(p[0]), str)
+	c1 = Card(rank =1)
+	c2 = Card(rank =11)
+	c3 = Card(rank =12)
+	c4 = Card(rank =13)
+    self.assertEqual(c1 in faces, True)
+    self.assertEqual(c2 in faces, True)
+    self.assertEqual(c3 in faces, True)
+    self.assertEqual(c4 in faces, True)
 
 
 #############
