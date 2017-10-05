@@ -1,5 +1,4 @@
-bplist00—_WebMainResource’	
-_WebResourceData_WebResourceMIMEType_WebResourceTextEncodingName^WebResourceURL_WebResourceFrameNameOp(<html><head><style type="text/css"></style></head><body><pre style="word-wrap: break-word; white-space: pre-wrap;">This file contains the sample data
+This file contains the sample data
 
 
 Why should you learn to write programs?
@@ -249,7 +248,7 @@ a terminal or command window and you will type python and
 and appear somewhat as follows:
 interactive mode
 
-The &gt;&gt;&gt; prompt is the Python interpreter's way of asking you, What
+The >>> prompt is the Python interpreter's way of asking you, What
 do you want me to do next?  Python is ready to have a conversation with
 you.  All you have to know is how to speak the Python language.
 
@@ -514,10 +513,10 @@ understand what you have entered.
 
 Python is much more like a dog, loving you unconditionally, having a few
 key words that it understands, looking you with a sweet look on its
-face (&gt;&gt;&gt;), and waiting for you to say something it understands.
+face (>>>), and waiting for you to say something it understands.
 When Python says SyntaxError: invalid syntax, it is simply wagging
 its tail and saying, You seemed to say something but I just don't
-understand what you meant, but please keep talking to me (&gt;&gt;&gt;).
+understand what you meant, but please keep talking to me (>>>).
 
 As your programs become increasingly sophisticated, you will encounter three 
 general types of errors:
@@ -593,4 +592,3 @@ you will look back and see that it was all really easy and elegant and it simply
 took you a bit of time to absorb it.
 42
 The end
-</pre></body></html>Ztext/plainUUTF-8_.http://py4e-data.dr-chuck.net/regex_sum_42.txtP    ( : P n } îp¿pÀp—q                           q
