@@ -2,16 +2,25 @@ import urllib.request, urllib.parse, urllib.error
 from bs4 import BeautifulSoup
 import ssl
 
-# Ignore SSL certificate errors
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
 
-url = input('Enter - ')
-html = urllib.request.urlopen(url, context=ctx).read()
-soup = BeautifulSoup(html, 'html.parser')
+url = input('Enter URL: ')
+count = int(input("Enter count: "))
+position = int(input("Enter position: "))
 
-# Retrieve all of the anchor tags
-tags = soup('a')
-for tag in tags:
-    print(tag.get('href', None)) 
+names = []
+
+while count > 0:
+	print ("retrieving: {0}".format(url))
+	html = urllib.request.urlopen(url, context=ctx).read()
+	soup = BeautifulSoup(html, 'html.parser')
+	tags = soup('a')
+	name = tags[position-1].string
+	names.append(name)
+	url = tags[position-1]['href']
+	count -= 1
+
+print (names[-1])
+
