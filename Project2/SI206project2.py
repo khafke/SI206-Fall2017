@@ -26,16 +26,6 @@ from bs4 import BeautifulSoup
 ## find_urls("I love looking at websites like http://etsy.com and http://instagram.com and stuff") should return ["http://etsy.com","http://instagram.com"]
 ## find_urls("the internet is awesome #worldwideweb") should return [], empty list
 
-## o OK	Anything that begins with http:// or https:// AND
-## o	Includes at least one “.”within it, and each “.” character must be followed by at least 2 characters
-## ∞	E.g. http://bbc.co.uk is a valid url
-## ∞	And https://www.gmail.com and https://gmail.com are also both valid urls
-## ∞	As is http://nationalparkservice.gov/pictures/badlands
-## ∞	But gmail.gov is not a valid url for our purposes
-## ∞	And http://bbc.c is not a valid url for our purposes either
-## o	Includes no spaces or any other whitespace characters
-## o	(OK to be more specific than our requirements above if you want to challenge yourself to get absolutely all URLs even if they're quite unusual. You must at least handle all of all of those listed requirements.)
-
 
 def find_urls(s):
     urls = re.findall('https?:\/\/\w+\.\w\w+\S+', s)
