@@ -68,13 +68,41 @@ def grab_headlines():
 ## requests.get(base_url, headers={'User-Agent': 'SI_CLASS'}) 
 
 def get_umsi_data():
-	pass
+
+	ctx = ssl.create_default_context()
+	ctx.check_hostname = False
+	ctx.verify_mode = ssl.CERT_NONE
+
+	url = 'https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=All'
+
+	count = 0
+
+	while count < 14:
+		newurl = url + '&page=' + str(count)
+		req = requests.get(newurl, headers={'User-Agent': 'SI_CLASS'}) 
+		soup = BeautifulSoup(req.text, 'html.parser')
+		count += 1
+
+		print ('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+		tags = soup('div', class_='field-item even')
+		for tag in tags:
+			stuff = (tag)
 
 ## PART 3 (b) Define a function called num_students.  
 ## INPUT: The dictionary from get_umsi_data().
 ## OUTPUT: Return number of PhD students in the data.  (Don't forget, I may change the input data)
 def num_students(data):
-    pass
+	pass
+
+	#count = 0
+
+	#for x in data.values():
+		#if x == 'PhD student':
+		#	count += 1
+	
+	#return count
+
 
 ########### TESTS; DO NOT CHANGE ANY CODE BELOW THIS LINE! ###########
 def test(got, expected, pts):
