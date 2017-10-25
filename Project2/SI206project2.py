@@ -76,6 +76,8 @@ def get_umsi_data():
 	url = 'https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=All'
 
 	count = 0
+	namelist = []
+	titlelist = []
 
 	while count < 14:
 		newurl = url + '&page=' + str(count)
@@ -83,26 +85,34 @@ def get_umsi_data():
 		soup = BeautifulSoup(req.text, 'html.parser')
 		count += 1
 
-		print ('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+		nametags = soup('div', class_='field-item even')
+		for tag in nametags:
+			names = (soup.find_all(attrs={"property": "dc:title"}))
+		for x in names:
+			name = x.text #isloating names from other text
+			namelist.append(name) #creating list of names
 
-		tags = soup('div', class_='field-item even')
-		for tag in tags:
-			stuff = (tag)
+		titletags = soup('div', class_='field field-name-field-person-titles field-type-text field-label-hidden')
+		for tag in titletags:
+			title = tag.string #isloating titles from other text
+			titlelist.append(title) #creating list of titles
+	
+	nameandtitles = (dict(zip(namelist, titlelist) ))#creating dictionary
+	return nameandtitles
+
 
 ## PART 3 (b) Define a function called num_students.  
 ## INPUT: The dictionary from get_umsi_data().
 ## OUTPUT: Return number of PhD students in the data.  (Don't forget, I may change the input data)
 def num_students(data):
-	pass
 
-	#count = 0
+	count = 0
 
-	#for x in data.values():
-		#if x == 'PhD student':
-		#	count += 1
+	for x in data.values():
+		if x == 'PhD student':
+			count += 1
 	
-	#return count
-
+	return count
 
 ########### TESTS; DO NOT CHANGE ANY CODE BELOW THIS LINE! ###########
 def test(got, expected, pts):
