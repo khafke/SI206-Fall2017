@@ -18,7 +18,7 @@ import twitter_info # same deal as always...
 import json
 import sqlite3
 
-## Your name:
+## Your name: Kamden Hafke
 ## The names of anyone you worked with on this project:
 
 #####
@@ -47,21 +47,39 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 ## CACHE_FNAME variable for you for the cache file name, but you must 
 ## write the rest of the code in this file.
 
+
 CACHE_FNAME = "206_APIsAndDBs_cache.json"
 # Put the rest of your caching setup here:
-
-
+try:
+	cache_file = open(CACHE_FNAME,'r')
+	cache_contents = cache_file.read()
+	cache_file.close()
+	CACHE_DICTION = json.loads(cache_contents)
+except:
+	CACHE_DICTION = {}
 
 # Define your function get_user_tweets here:
 
+def get_user_tweets(user):
+	
+	if len(CACHE_DICTION) > 1:
+		print ('USING CACHE')
+		return (CACHE_DICTION)
 
-
-
+	else:
+		print ('FETCHING')
+		results = api.user_timeline(screen_name = user) #get results
+		print (results)
+		dumped_json_cache = json.dumps(results)
+		fw = open(CACHE_FNAME,"w")
+		fw.write(dumped_json_cache)
+		fw.close() # Close the open file
+		return (CACHE_DICTION)
 
 # Write an invocation to the function for the "umich" user timeline and 
 # save the result in a variable called umich_tweets:
 
-
+umich_tweets = get_user_tweets('umich')
 
 
 ## Task 2 - Creating database and loading data into database
@@ -151,92 +169,92 @@ class Task1(unittest.TestCase):
 		data = fstr.read()
 		fstr.close()
 		self.assertTrue("umich" in data)
-	def test_get_user_tweets(self):
-		res = get_user_tweets("umsi")
-		self.assertEqual(type(res),type(["hi",3]))
-	def test_umich_tweets(self):
-		self.assertEqual(type(umich_tweets),type([]))
-	def test_umich_tweets2(self):
-		self.assertEqual(type(umich_tweets[18]),type({"hi":3}))
-	def test_umich_tweets_function(self):
-		self.assertTrue(len(umich_tweets)>=20)
+		def test_get_user_tweets(self):
+			res = get_user_tweets("umsi")
+			self.assertEqual(type(res),type(["hi",3]))
+			def test_umich_tweets(self):
+				self.assertEqual(type(umich_tweets),type([]))
+				def test_umich_tweets2(self):
+					self.assertEqual(type(umich_tweets[18]),type({"hi":3}))
+					def test_umich_tweets_function(self):
+						self.assertTrue(len(umich_tweets)>=20)
 
-class Task2(unittest.TestCase):
-	def test_tweets_1(self):
-		conn = sqlite3.connect('206_APIsAndDBs.sqlite')
-		cur = conn.cursor()
-		cur.execute('SELECT * FROM Tweets');
-		result = cur.fetchall()
-		self.assertTrue(len(result)>=20, "Testing there are at least 20 records in the Tweets database")
-		conn.close()
-	def test_tweets_2(self):
-		conn = sqlite3.connect('206_APIsAndDBs.sqlite')
-		cur = conn.cursor()
-		cur.execute('SELECT * FROM Tweets');
-		result = cur.fetchall()
-		self.assertTrue(len(result[1])==5,"Testing that there are 5 columns in the Tweets table")
-		conn.close()
-	def test_tweets_3(self):
-		conn = sqlite3.connect('206_APIsAndDBs.sqlite')
-		cur = conn.cursor()
-		cur.execute('SELECT tweet_id FROM Tweets');
-		result = cur.fetchall()
-		self.assertTrue(result[0][0] != result[19][0], "Testing part of what's expected such that tweets are not being added over and over (tweet id is a primary key properly)...")
-		if len(result) > 20:
-			self.assertTrue(result[0][0] != result[20][0])
-		conn.close()
-
-
-	def test_users_1(self):
-		conn = sqlite3.connect('206_APIsAndDBs.sqlite')
-		cur = conn.cursor()
-		cur.execute('SELECT * FROM Users');
-		result = cur.fetchall()
-		self.assertTrue(len(result)>=2,"Testing that there are at least 2 distinct users in the Users table")
-		conn.close()
-	def test_users_2(self):
-		conn = sqlite3.connect('206_APIsAndDBs.sqlite')
-		cur = conn.cursor()
-		cur.execute('SELECT * FROM Users');
-		result = cur.fetchall()
-		self.assertTrue(len(result)<20,"Testing that there are fewer than 20 users in the users table -- effectively, that you haven't added duplicate users. If you got hundreds of tweets and are failing this, let's talk. Otherwise, careful that you are ensuring that your user id is a primary key!")
-		conn.close()
-	def test_users_3(self):
-		conn = sqlite3.connect('206_APIsAndDBs.sqlite')
-		cur = conn.cursor()
-		cur.execute('SELECT * FROM Users');
-		result = cur.fetchall()
-		self.assertTrue(len(result[0])==4,"Testing that there are 4 columns in the Users database")
-		conn.close()
-
-class Task3(unittest.TestCase):
-	def test_users_info(self):
-		self.assertEqual(type(users_info),type([]),"testing that users_info contains a list")
-	def test_users_info2(self):
-		self.assertEqual(type(users_info[0]),type(("hi","bye")),"Testing that an element in the users_info list is a tuple")
-
-	def test_track_names(self):
-		self.assertEqual(type(screen_names),type([]),"Testing that screen_names is a list")
-	def test_track_names2(self):
-		self.assertEqual(type(screen_names[0]),type(""),"Testing that an element in screen_names list is a string")
-
-	def test_more_rts(self):
-		if len(retweets) >= 1:
-			self.assertTrue(len(retweets[0])==5,"Testing that a tuple in retweets has 5 fields of info (one for each of the columns in the Tweet table)")
-	def test_more_rts2(self):
-		self.assertEqual(type(retweets),type([]),"Testing that retweets is a list")
-	def test_more_rts3(self):
-		if len(retweets) >= 1:
-			self.assertTrue(retweets[1][-1]>10, "Testing that one of the retweet # values in the tweets is greater than 10")
-
-	def test_descriptions_fxn(self):
-		self.assertEqual(type(favorites),type([]),"Testing that favorites is a list")
-	def test_descriptions_fxn2(self):
-		self.assertEqual(type(favorites[0]),type(""),"Testing that at least one of the elements in the favorites list is a string, not a tuple or anything else")
-	def test_joined_result(self):
-		self.assertEqual(type(joined_data[0]),type(("hi","bye")),"Testing that an element in joined_result is a tuple")
+						class Task2(unittest.TestCase):
+							def test_tweets_1(self):
+								conn = sqlite3.connect('206_APIsAndDBs.sqlite')
+								cur = conn.cursor()
+								cur.execute('SELECT * FROM Tweets');
+								result = cur.fetchall()
+								self.assertTrue(len(result)>=20, "Testing there are at least 20 records in the Tweets database")
+								conn.close()
+								def test_tweets_2(self):
+									conn = sqlite3.connect('206_APIsAndDBs.sqlite')
+									cur = conn.cursor()
+									cur.execute('SELECT * FROM Tweets');
+									result = cur.fetchall()
+									self.assertTrue(len(result[1])==5,"Testing that there are 5 columns in the Tweets table")
+									conn.close()
+									def test_tweets_3(self):
+										conn = sqlite3.connect('206_APIsAndDBs.sqlite')
+										cur = conn.cursor()
+										cur.execute('SELECT tweet_id FROM Tweets');
+										result = cur.fetchall()
+										self.assertTrue(result[0][0] != result[19][0], "Testing part of what's expected such that tweets are not being added over and over (tweet id is a primary key properly)...")
+										if len(result) > 20:
+											self.assertTrue(result[0][0] != result[20][0])
+											conn.close()
 
 
+											def test_users_1(self):
+												conn = sqlite3.connect('206_APIsAndDBs.sqlite')
+												cur = conn.cursor()
+												cur.execute('SELECT * FROM Users');
+												result = cur.fetchall()
+												self.assertTrue(len(result)>=2,"Testing that there are at least 2 distinct users in the Users table")
+												conn.close()
+												def test_users_2(self):
+													conn = sqlite3.connect('206_APIsAndDBs.sqlite')
+													cur = conn.cursor()
+													cur.execute('SELECT * FROM Users');
+													result = cur.fetchall()
+													self.assertTrue(len(result)<20,"Testing that there are fewer than 20 users in the users table -- effectively, that you haven't added duplicate users. If you got hundreds of tweets and are failing this, let's talk. Otherwise, careful that you are ensuring that your user id is a primary key!")
+													conn.close()
+													def test_users_3(self):
+														conn = sqlite3.connect('206_APIsAndDBs.sqlite')
+														cur = conn.cursor()
+														cur.execute('SELECT * FROM Users');
+														result = cur.fetchall()
+														self.assertTrue(len(result[0])==4,"Testing that there are 4 columns in the Users database")
+														conn.close()
 
-if __name__ == "__main__":
-	unittest.main(verbosity=2)
+														class Task3(unittest.TestCase):
+															def test_users_info(self):
+																self.assertEqual(type(users_info),type([]),"testing that users_info contains a list")
+																def test_users_info2(self):
+																	self.assertEqual(type(users_info[0]),type(("hi","bye")),"Testing that an element in the users_info list is a tuple")
+
+																	def test_track_names(self):
+																		self.assertEqual(type(screen_names),type([]),"Testing that screen_names is a list")
+																		def test_track_names2(self):
+																			self.assertEqual(type(screen_names[0]),type(""),"Testing that an element in screen_names list is a string")
+
+																			def test_more_rts(self):
+																				if len(retweets) >= 1:
+																					self.assertTrue(len(retweets[0])==5,"Testing that a tuple in retweets has 5 fields of info (one for each of the columns in the Tweet table)")
+																					def test_more_rts2(self):
+																						self.assertEqual(type(retweets),type([]),"Testing that retweets is a list")
+																						def test_more_rts3(self):
+																							if len(retweets) >= 1:
+																								self.assertTrue(retweets[1][-1]>10, "Testing that one of the retweet # values in the tweets is greater than 10")
+
+																								def test_descriptions_fxn(self):
+																									self.assertEqual(type(favorites),type([]),"Testing that favorites is a list")
+																									def test_descriptions_fxn2(self):
+																										self.assertEqual(type(favorites[0]),type(""),"Testing that at least one of the elements in the favorites list is a string, not a tuple or anything else")
+																										def test_joined_result(self):
+																											self.assertEqual(type(joined_data[0]),type(("hi","bye")),"Testing that an element in joined_result is a tuple")
+
+
+
+																											if __name__ == "__main__":
+																												unittest.main(verbosity=2)
