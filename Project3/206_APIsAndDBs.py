@@ -60,8 +60,8 @@ except:
 
 # Define your function get_user_tweets here:
 
-def get_user_tweets(user):
-	
+def get_user_tweets(user): #input: user. output: timeline information 
+
 	if len(CACHE_DICTION) > 1:
 		print ('USING CACHE')
 		return (CACHE_DICTION)
@@ -93,35 +93,38 @@ umich_tweets = get_user_tweets('umich')
 conn = sqlite3.connect('206_APIsAndDBs.sqlite')
 cur = conn.cursor()
 
-cur.execute('DROP TABLE IF EXISTS Users') 
-cur.execute('CREATE TABLE Users (user_id INTEGER PRIMARY KEY, screen_name TEXT, num_favs INTEGER, description TEXT)')
+def create_database(tweets): #creating function with input of any get_user_tweets output. output: database
 
-for tw in umich_tweets:
-	(tw['user']['id'])
-	userinfo = tw['entities']['user_mentions'] #getting mentioned user's info
-	if len(userinfo) > 0:
-		screen_name = userinfo[0]['screen_name'] #user's screenname to be used in get_user method
-		user = api.get_user(screen_name) 
-	else: # adding original user to table
-		user = api.get_user((tw['user']['id']))
+	cur.execute('DROP TABLE IF EXISTS Users') 
+	cur.execute('CREATE TABLE Users (user_id INTEGER PRIMARY KEY, screen_name TEXT, num_favs INTEGER, description TEXT)')
 
-	tup = user['id'], user['screen_name'], user['favourites_count'], user['description']
+	for tw in tweets:
+		(tw['user']['id'])
+		userinfo = tw['entities']['user_mentions'] #getting mentioned user's info
+		if len(userinfo) > 0:
+			screen_name = userinfo[0]['screen_name'] #user's screenname to be used in get_user method
+			user = api.get_user(screen_name) 
+		else: # adding original user to table
+			user = api.get_user((tw['user']['id']))
+			tup = user['id'], user['screen_name'], user['favourites_count'], user['description']
 	cur.execute('INSERT OR REPLACE INTO Users (user_id, screen_name, num_favs, description) VALUES (?, ?, ?, ?)', tup)
 
-##You should load into the Tweets table: 
-# Info about all the tweets (at least 20) that you gather from the 
-# umich timeline.
-# NOTE: Be careful that you have the correct user ID reference in 
-# the user_id column! See below hints.
+	##You should load into the Tweets table: 
+	# Info about all the tweets (at least 20) that you gather from the 
+	# umich timeline.
+	# NOTE: Be careful that you have the correct user ID reference in 
+	# the user_id column! See below hints.
 
-cur.execute('DROP TABLE IF EXISTS Tweets') 
-cur.execute('CREATE TABLE Tweets (tweet_id INTEGER PRIMARY KEY, tweet_text TEXT, user_posted TEXT, time_posted DATETIME, retweets INTEGER, FOREIGN KEY(user_posted) REFERENCES Users(user_id))')
+	cur.execute('DROP TABLE IF EXISTS Tweets') 
+	cur.execute('CREATE TABLE Tweets (tweet_id INTEGER PRIMARY KEY, tweet_text TEXT, user_posted TEXT, time_posted DATETIME, retweets INTEGER, FOREIGN KEY(user_posted) REFERENCES Users(user_id))')
 
-for tw in umich_tweets:
-	tup = tw['id'],  tw['text'], tw['user']['id'], tw['created_at'], tw['retweet_count']
-	cur.execute('INSERT INTO Tweets (tweet_id, tweet_text, user_posted, time_posted, retweets) VALUES (?, ?, ?, ?, ?)', tup)
+	for tw in tweets:
+		tup = tw['id'],  tw['text'], tw['user']['id'], tw['created_at'], tw['retweet_count']
+		cur.execute('INSERT INTO Tweets (tweet_id, tweet_text, user_posted, time_posted, retweets) VALUES (?, ?, ?, ?, ?)', tup)
 
-conn.commit()
+		conn.commit()
+
+create_database(umich_tweets) #creating database using umich_tweets
 
 ## HINT: There's a Tweepy method to get user info, so when you have a 
 ## user id or screenname you can find alllll the info you want about 
